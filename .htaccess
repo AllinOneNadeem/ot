@@ -1,0 +1,310 @@
+# ============================================================
+# .HTACCESS - Main Configuration File
+# ============================================================
+
+# ============================================================
+# Enable Rewrite Engine
+# ============================================================
+RewriteEngine On
+
+# ============================================================
+# Set Default Charset
+# ============================================================
+AddDefaultCharset UTF-8
+
+# ============================================================
+# Prevent Directory Listing
+# ============================================================
+Options -Indexes
+
+# ============================================================
+# Set Default File
+# ============================================================
+DirectoryIndex index.php
+
+# ============================================================
+# ============================================================
+# ERROR DOCUMENTS
+# ============================================================
+# ============================================================
+
+ErrorDocument 400 /error/400.php
+ErrorDocument 401 /error/401.php
+ErrorDocument 403 /error/403.php
+ErrorDocument 404 /error/404.php
+ErrorDocument 500 /error/500.php
+ErrorDocument 503 /error/503.php
+
+# ============================================================
+# ============================================================
+# URL REWRITING RULES
+# ============================================================
+# ============================================================
+
+# ============================================================
+# User Panel Routes
+# ============================================================
+RewriteRule ^dashboard$ user/dashboard.php [L]
+RewriteRule ^numbers$ user/dashboard.php?tab=numbers [L]
+RewriteRule ^recharge$ user/dashboard.php?tab=recharge [L]
+RewriteRule ^history$ user/dashboard.php?tab=history [L]
+RewriteRule ^profile$ user/dashboard.php?tab=profile [L]
+
+# ============================================================
+# Admin Panel Routes
+# ============================================================
+RewriteRule ^admin$ admin/index.php [L]
+RewriteRule ^admin/dashboard$ admin/index.php?tab=dashboard [L]
+RewriteRule ^admin/users$ admin/index.php?tab=users [L]
+RewriteRule ^admin/services$ admin/index.php?tab=services [L]
+RewriteRule ^admin/orders$ admin/index.php?tab=orders [L]
+RewriteRule ^admin/payments$ admin/index.php?tab=payments [L]
+RewriteRule ^admin/payment-settings$ admin/index.php?tab=payment-settings [L]
+RewriteRule ^admin/api$ admin/index.php?tab=api [L]
+RewriteRule ^admin/settings$ admin/index.php?tab=settings [L]
+RewriteRule ^admin/support$ admin/index.php?tab=support [L]
+RewriteRule ^admin/broadcast$ admin/index.php?tab=broadcast [L]
+RewriteRule ^admin/footer$ admin/index.php?tab=footer [L]
+RewriteRule ^admin/promo$ admin/index.php?tab=promo [L]
+RewriteRule ^admin/pages$ admin/index.php?tab=pages [L]
+RewriteRule ^admin/banners$ admin/index.php?tab=banners [L]
+RewriteRule ^admin/profile$ admin/index.php?tab=profile [L]
+
+# ============================================================
+# Page Routes (Dynamic Pages)
+# ============================================================
+RewriteRule ^page/([a-zA-Z0-9-]+)$ index.php?page=$1 [L]
+RewriteRule ^privacy-policy$ index.php?page=privacy-policy [L]
+RewriteRule ^terms$ index.php?page=terms [L]
+RewriteRule ^about$ index.php?page=about [L]
+RewriteRule ^contact$ index.php?page=contact [L]
+
+# ============================================================
+# ============================================================
+# SECURITY HEADERS
+# ============================================================
+# ============================================================
+
+# ============================================================
+# Prevent Clickjacking
+# ============================================================
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# ============================================================
+# Prevent MIME Type Sniffing
+# ============================================================
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# ============================================================
+# Enable XSS Protection
+# ============================================================
+<IfModule mod_headers.c>
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# ============================================================
+# Strict Transport Security (HTTPS)
+# ============================================================
+<IfModule mod_headers.c>
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ============================================================
+# Referrer Policy
+# ============================================================
+<IfModule mod_headers.c>
+    Header set Referrer-Policy "no-referrer-when-downgrade"
+</IfModule>
+
+# ============================================================
+# ============================================================
+# PHP SETTINGS
+# ============================================================
+# ============================================================
+
+<IfModule mod_php7.c>
+    # Increase memory limit
+    php_value memory_limit 256M
+    
+    # Increase max execution time
+    php_value max_execution_time 300
+    
+    # Increase upload max file size
+    php_value upload_max_filesize 64M
+    php_value post_max_size 64M
+    
+    # Enable error logging
+    php_flag log_errors On
+    php_value error_log /home/otplux/logs/error_log.txt
+    
+    # Display errors (set to Off in production)
+    php_flag display_errors Off
+    
+    # Set timezone
+    php_value date.timezone Asia/Kolkata
+</IfModule>
+
+# ============================================================
+# ============================================================
+# CACHING & COMPRESSION
+# ============================================================
+# ============================================================
+
+# ============================================================
+# Enable Gzip Compression
+# ============================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+    AddOutputFilterByType DEFLATE application/json application/xml application/rss+xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ============================================================
+# Cache Static Assets
+# ============================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS
+    ExpiresByType text/css "access plus 1 month"
+    
+    # JavaScript
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    
+    # Fonts
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ============================================================
+# ============================================================
+# FILE ACCESS RESTRICTIONS
+# ============================================================
+# ============================================================
+
+# ============================================================
+# Protect .htaccess and .htpasswd
+# ============================================================
+<Files ~ "^\.(htaccess|htpasswd)$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# ============================================================
+# Protect config files
+# ============================================================
+<Files ~ "\.(ini|log|sql|sh)$">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# ============================================================
+# Protect sensitive directories
+# ============================================================
+<Directory "admin/actions/">
+    Order allow,deny
+    Deny from all
+</Directory>
+
+<Directory "includes/">
+    Order allow,deny
+    Deny from all
+</Directory>
+
+<Directory "logs/">
+    Order allow,deny
+    Deny from all
+</Directory>
+
+# ============================================================
+# NEW PHP ERROR HANDLING (For Debugging)
+# ============================================================
+<IfModule mod_php7.c>
+    # Enable error logging
+    php_flag log_errors On
+    
+    # Path to our new error log file
+    php_value error_log /home/otplux/public_html/error_log.txt
+    
+    # Display errors on screen as well
+    php_flag display_errors On
+    php_flag display_startup_errors On
+</IfModule>
+
+# ============================================================
+# Disable error display in production
+# ============================================================
+php_flag display_errors off
+php_flag display_startup_errors off
+
+# ============================================================
+# Enable error logging
+# ============================================================
+php_flag log_errors on
+php_value error_log /home/otplux/logs/error_log.txt
+
+# ============================================================
+# ============================================================
+# BLOCK BAD BOTS
+# ============================================================
+# ============================================================
+
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_USER_AGENT} (ahrefs|bot|spider|crawler|semrush) [NC]
+    RewriteRule .* - [F,L]
+</IfModule>
+
+# ============================================================
+# ============================================================
+# ALLOW ACCESS TO ASSETS
+# ============================================================
+# ============================================================
+
+<Directory "assets/">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Directory "assets/css/">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Directory "assets/js/">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+<Directory "assets/images/">
+    Order allow,deny
+    Allow from all
+</Directory>
+
+# ============================================================
+# ============================================================
+# REDIRECT TO HTTPS (Uncomment to enable)
+# ============================================================
+# ============================================================
+
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# ============================================================
+# END OF .HTACCESS FILE
+# ============================================================
