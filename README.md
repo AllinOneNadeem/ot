@@ -1,18 +1,26 @@
-# OT
+# OT — OTP SMS (otpsms.store)
 
-Project by **All In One Nadeem** — Digital Marketer, Website Owner & Developer.
+OTP SMS service platform — virtual numbers for OTP verification.
+Website: https://otpsms.store
 
-📍 New Delhi, India
+## About
 
-🚧 **Status:** This project is under development. Details and documentation will be added soon.
+A PHP web application with a full admin panel and user panel:
 
----
+- **Admin panel** (`admin/`) — users, balances, services, servers, API providers, orders, payments, promos, banners, pages and site settings
+- **User panel** (`user/`) — dashboard, buy numbers, wallet and order history
+- **Public pages** — home, login, API documentation (`api-docs.php`)
 
-### About the owner
-All In One Nadeem (MR Nadeem Genius) builds and manages multiple web projects — digital products, hosting, SMM services, WordPress tools and more.
+## Tech
 
-🔗 All links: https://allinonenadeem.bio.link
+- Plain PHP (PDO, MySQL with utf8mb4)
+- Custom CSS/JS assets (`assets/`)
 
----
+## Setup note
 
-© 2026 All In One Nadeem. See [LICENSE](LICENSE) for details.
+`db.php` in this repo carries a placeholder instead of the real database
+password — set the real credentials on the server when deploying.
+
+## Owner
+
+**All In One Nadeem** — DigiTal MarkeT
